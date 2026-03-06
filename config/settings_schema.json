@@ -435,7 +435,7 @@
         "max": 80,
         "step": 1,
         "unit": "px",
-        "default": 32
+        "default": 50
       },
       {
         "type": "checkbox",
