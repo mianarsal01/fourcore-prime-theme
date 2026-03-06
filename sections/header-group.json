@@ -78,7 +78,7 @@
         "enable_country_selector": true,
         "enable_language_selector": true,
         "flag_style": "circle",
-        "sticky_header": "always",
+        "sticky_header": "on_scroll_up",
         "enable_contact_block": true,
         "contact_text": "Get in Touch",
         "contact_accent_text": "Send us a message",
