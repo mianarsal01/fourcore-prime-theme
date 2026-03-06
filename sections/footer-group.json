@@ -1,0 +1,65 @@
+{
+  "name": "Footer group",
+  "type": "footer",
+  "sections": {
+    "footer": {
+      "type": "footer",
+      "blocks": {
+        "brand": {
+          "type": "logo_info",
+          "settings": {
+            "logo_width": 130,
+            "description": "<p>FourCore Prime blends conversion UX with merchandising-first storytelling.</p>"
+          }
+        },
+        "quick_links": {
+          "type": "link_list",
+          "settings": {
+            "heading": "Quick links",
+            "menu": "footer"
+          }
+        },
+        "customer_care": {
+          "type": "link_list",
+          "settings": {
+            "heading": "Customer care",
+            "menu": "footer"
+          }
+        },
+        "contact": {
+          "type": "contacts",
+          "settings": {
+            "heading": "Talk to us",
+            "description": "Our team is here to help with orders, returns, and product support.",
+            "contact_info": "<p><strong>Email:</strong> support@example.com<br><strong>Phone:</strong> +1 (555) 123-4567</p>"
+          }
+        }
+      },
+      "block_order": [
+        "brand",
+        "quick_links",
+        "customer_care",
+        "contact"
+      ],
+      "settings": {
+        "color_scheme": "light-2",
+        "show_border": true,
+        "enable_open_menu": false,
+        "enable_country_selector": true,
+        "enable_language_selector": true,
+        "flag_style": "circle",
+        "payment_enable": true,
+        "show_social": true,
+        "enable_follow_on_shop": true,
+        "show_policy": true,
+        "enable_subscribe": true,
+        "newsletter_heading": "Get updates and early offers",
+        "newsletter_placeholder": "you@example.com",
+        "button_style": "primary"
+      }
+    }
+  },
+  "order": [
+    "footer"
+  ]
+}

@@ -1,0 +1,102 @@
+{%- render 'breadcrumbs' -%}
+
+<section class="page-width" style="padding: 2rem 0;">
+  <header class="collection-header">
+    <div>
+      <h1>{{ collection.title }}</h1>
+      {%- if section.settings.show_description and collection.description != blank -%}
+        <div>{{ collection.description }}</div>
+      {%- endif -%}
+    </div>
+
+    <div class="collection-header__controls">
+      <div class="view-toggle" role="group" aria-label="Change product view">
+        <button type="button" data-view-mode="grid" class="is-active">Grid</button>
+        <button type="button" data-view-mode="list">List</button>
+      </div>
+
+      <form>
+        <label for="SortBy">{{ 'collections.sorting.title' | t }}</label>
+        <select name="sort_by" id="SortBy" onchange="this.form.submit()">
+          {%- for option in collection.sort_options -%}
+            <option value="{{ option.value }}" {% if option.value == collection.sort_by %}selected{% endif %}>{{ option.name }}</option>
+          {%- endfor -%}
+        </select>
+      </form>
+    </div>
+  </header>
+
+  {%- if collection.filters.size > 0 -%}
+    <details class="collection-filters">
+      <summary>{{ 'collections.filters.title' | t }}</summary>
+      <form>
+        {%- for filter in collection.filters -%}
+          <fieldset>
+            <legend>{{ filter.label }}</legend>
+            {%- case filter.type -%}
+              {%- when 'list' -%}
+                <div class="filter-values">
+                  {%- assign filter_name_downcase = filter.label | downcase -%}
+                  {%- assign is_color_filter = false -%}
+                  {%- if filter_name_downcase contains 'color' or filter_name_downcase contains 'colour' -%}
+                    {%- assign is_color_filter = true -%}
+                  {%- endif -%}
+
+                  {%- for filter_value in filter.values -%}
+                    <label class="filter-value{% if is_color_filter %} filter-value--swatch{% endif %}">
+                      <input type="checkbox" name="{{ filter_value.param_name }}" value="{{ filter_value.value }}" {% if filter_value.active %}checked{% endif %}>
+                      {%- if is_color_filter -%}
+                        <span class="filter-swatch" style="--swatch-color: {{ filter_value.label | escape }};" aria-hidden="true"></span>
+                        <span>{{ filter_value.label }}</span>
+                      {%- else -%}
+                        <span>{{ filter_value.label }}</span>
+                      {%- endif -%}
+                      <span>({{ filter_value.count }})</span>
+                    </label>
+                  {%- endfor -%}
+                </div>
+              {%- when 'price_range' -%}
+                <label>
+                  Min
+                  <input type="number" name="{{ filter.min_value.param_name }}" value="{{ filter.min_value.value }}">
+                </label>
+                <label>
+                  Max
+                  <input type="number" name="{{ filter.max_value.param_name }}" value="{{ filter.max_value.value }}">
+                </label>
+            {%- endcase -%}
+          </fieldset>
+        {%- endfor -%}
+        <button type="submit">Apply</button>
+      </form>
+    </details>
+  {%- endif -%}
+
+  {%- paginate collection.products by 24 -%}
+    <div class="grid product-grid" data-collection-products>
+      {%- for product in collection.products -%}
+        {%- render 'product-card', product: product -%}
+      {%- else -%}
+        <p>No products found.</p>
+      {%- endfor -%}
+    </div>
+
+    {%- if paginate.pages > 1 -%}
+      {{ paginate | default_pagination }}
+    {%- endif -%}
+  {%- endpaginate -%}
+</section>
+
+{% schema %}
+{
+  "name": "Main collection",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_description",
+      "label": "Show collection description",
+      "default": true
+    }
+  ]
+}
+{% endschema %}

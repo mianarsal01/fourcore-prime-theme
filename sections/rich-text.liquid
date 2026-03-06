@@ -1,0 +1,29 @@
+<section class="page-width" style="padding: 2rem 0;">
+  <h2>{{ section.settings.heading }}</h2>
+  <div>{{ section.settings.content }}</div>
+</section>
+
+{% schema %}
+{
+  "name": "Rich text",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Tell your brand story"
+    },
+    {
+      "type": "richtext",
+      "id": "content",
+      "label": "Content",
+      "default": "<p>Add meaningful editorial content to support your products.</p>"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Rich text"
+    }
+  ]
+}
+{% endschema %}

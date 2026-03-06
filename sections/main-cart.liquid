@@ -1,0 +1,67 @@
+<section class="page-width" style="padding: 2rem 0;">
+  <h1>{{ 'cart.general.title' | t }}</h1>
+
+  {%- if cart == empty -%}
+    <p>{{ 'cart.general.empty' | t }}</p>
+    <p><a href="{{ routes.all_products_collection_url }}">{{ 'general.continue_shopping' | t }}</a></p>
+  {%- else -%}
+    <form action="{{ routes.cart_url }}" method="post">
+      <div class="cart-layout">
+        <div>
+          {%- for item in cart.items -%}
+            <article style="display: grid; grid-template-columns: 90px 1fr; gap: 0.8rem; margin-bottom: 1rem;">
+              <a href="{{ item.url }}">
+                {{ item.image | image_url: width: 180 | image_tag: loading: 'lazy', widths: '90,180' }}
+              </a>
+
+              <div>
+                <a href="{{ item.url }}">{{ item.product.title }}</a>
+                <p>{{ item.final_line_price | money }}</p>
+                <label>
+                  Quantity
+                  <input type="number" name="updates[]" value="{{ item.quantity }}" min="0">
+                </label>
+              </div>
+            </article>
+          {%- endfor -%}
+
+          <label for="CartNote">{{ 'cart.general.note' | t }}</label>
+          <textarea id="CartNote" name="note">{{ cart.note }}</textarea>
+
+          <button type="submit" name="update">Update cart</button>
+        </div>
+
+        <aside class="cart-summary cart-summary--sticky">
+          <p>Subtotal: {{ cart.total_price | money }}</p>
+
+          {%- assign free_shipping_threshold = section.settings.free_shipping_threshold | times: 100 -%}
+          {%- if free_shipping_threshold > 0 -%}
+            {%- assign shipping_remaining = free_shipping_threshold | minus: cart.total_price -%}
+            {%- if shipping_remaining > 0 -%}
+              <p>{{ shipping_remaining | money }} away from free shipping</p>
+            {%- else -%}
+              <p>You unlocked free shipping.</p>
+            {%- endif -%}
+          {%- endif -%}
+
+          <button type="submit" name="checkout">{{ 'cart.general.checkout' | t }}</button>
+        </aside>
+      </div>
+    </form>
+  {%- endif -%}
+</section>
+
+{% schema %}
+{
+  "name": "Main cart",
+  "settings": [
+    {
+      "type": "number",
+      "id": "free_shipping_threshold",
+      "label": "Free shipping threshold",
+      "default": 75,
+      "info": "Theme currency"
+    }
+  ]
+}
+{% endschema %}

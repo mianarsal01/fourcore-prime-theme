@@ -1,0 +1,30 @@
+{
+  "general": {
+    "continue_shopping": "Continue shopping",
+    "view_all": "View all"
+  },
+  "products": {
+    "product": {
+      "add_to_cart": "Add to cart",
+      "sold_out": "Sold out",
+      "unavailable": "Unavailable",
+      "quantity": "Quantity"
+    }
+  },
+  "collections": {
+    "sorting": {
+      "title": "Sort by"
+    },
+    "filters": {
+      "title": "Filter"
+    }
+  },
+  "cart": {
+    "general": {
+      "title": "Cart",
+      "note": "Order note",
+      "checkout": "Checkout",
+      "empty": "Your cart is empty"
+    }
+  }
+}

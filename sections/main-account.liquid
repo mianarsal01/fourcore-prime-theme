@@ -1,0 +1,23 @@
+<section class="page-width" style="padding: 2rem 0;">
+  <h1>My account</h1>
+
+  <p>{{ customer.name }}</p>
+  <p>{{ customer.email }}</p>
+
+  <h2>Orders</h2>
+  {%- for order in customer.orders -%}
+    <article>
+      <a href="{{ order.customer_url }}">{{ order.name }}</a>
+      <p>{{ order.created_at | date: format: 'abbreviated_date' }} - {{ order.financial_status_label }}</p>
+    </article>
+  {%- else -%}
+    <p>No orders yet.</p>
+  {%- endfor -%}
+</section>
+
+{% schema %}
+{
+  "name": "Main account",
+  "settings": []
+}
+{% endschema %}

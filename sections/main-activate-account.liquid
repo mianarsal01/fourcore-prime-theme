@@ -1,0 +1,20 @@
+<section class="page-width" style="padding: 2rem 0; max-width: 36rem;">
+  <h1>Activate account</h1>
+
+  {%- form 'activate_customer_password' -%}
+    <label for="ActivatePassword">Password</label>
+    <input id="ActivatePassword" type="password" name="customer[password]" autocomplete="new-password" required>
+
+    <label for="ActivatePasswordConfirmation">Confirm password</label>
+    <input id="ActivatePasswordConfirmation" type="password" name="customer[password_confirmation]" autocomplete="new-password" required>
+
+    <button type="submit">Activate</button>
+  {%- endform -%}
+</section>
+
+{% schema %}
+{
+  "name": "Main activate account",
+  "settings": []
+}
+{% endschema %}

@@ -1,0 +1,22 @@
+<section class="page-width" style="padding: 2rem 0; max-width: 36rem;">
+  <h1>Login</h1>
+
+  {%- form 'customer_login' -%}
+    <label for="CustomerEmail">Email</label>
+    <input id="CustomerEmail" type="email" name="customer[email]" autocomplete="email" required>
+
+    <label for="CustomerPassword">Password</label>
+    <input id="CustomerPassword" type="password" name="customer[password]" autocomplete="current-password" required>
+
+    <button type="submit">Sign in</button>
+  {%- endform -%}
+
+  <p><a href="{{ routes.account_register_url }}">Create account</a></p>
+</section>
+
+{% schema %}
+{
+  "name": "Main login",
+  "settings": []
+}
+{% endschema %}

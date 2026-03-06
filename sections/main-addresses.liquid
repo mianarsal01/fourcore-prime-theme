@@ -1,0 +1,18 @@
+<section class="page-width" style="padding: 2rem 0;">
+  <h1>Addresses</h1>
+
+  {%- for address in customer.addresses -%}
+    <article>
+      <p>{{ address | format_address }}</p>
+    </article>
+  {%- else -%}
+    <p>No saved addresses.</p>
+  {%- endfor -%}
+</section>
+
+{% schema %}
+{
+  "name": "Main addresses",
+  "settings": []
+}
+{% endschema %}

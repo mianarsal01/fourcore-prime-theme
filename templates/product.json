@@ -1,0 +1,72 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-product",
+      "blocks": {
+        "shipping": {
+          "type": "shipping_info",
+          "settings": {
+            "heading": "Shipping and returns",
+            "content": "<p>Standard shipping takes 3-5 business days. Easy returns within 30 days.</p>"
+          }
+        },
+        "size_chart": {
+          "type": "size_chart",
+          "settings": {
+            "heading": "Size guide",
+            "page": ""
+          }
+        },
+        "trust": {
+          "type": "trust_badges",
+          "settings": {
+            "heading": "Shop with confidence",
+            "badge_1": "Secure checkout",
+            "badge_2": "30-day returns",
+            "badge_3": "Priority support"
+          }
+        },
+        "details": {
+          "type": "accordion",
+          "settings": {
+            "heading": "Product details",
+            "content": "<p>Add details about materials, care, fit, and dimensions.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "shipping",
+        "size_chart",
+        "trust",
+        "details"
+      ],
+      "settings": {
+        "sticky_info": true,
+        "show_vendor": false,
+        "option_picker_style": "mixed",
+        "show_inventory": true,
+        "low_stock_threshold": 6,
+        "show_quick_buy": true,
+        "enable_sticky_atc": true
+      }
+    },
+    "recommendations": {
+      "type": "product-recommendations",
+      "settings": {
+        "heading": "You may also like",
+        "products_to_show": 4
+      }
+    },
+    "recently_viewed": {
+      "type": "recently-viewed-products",
+      "settings": {
+        "heading": "Recently viewed"
+      }
+    }
+  },
+  "order": [
+    "main",
+    "recommendations",
+    "recently_viewed"
+  ]
+}

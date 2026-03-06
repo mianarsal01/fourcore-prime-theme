@@ -1,0 +1,37 @@
+<section class="stats-bar section-pad">
+  <div class="page-width stats-bar__grid">
+    {%- for block in section.blocks -%}
+      <div class="stats-bar__item" {{ block.shopify_attributes }}>
+        <p class="stats-bar__value">{{ block.settings.value }}</p>
+        <p class="stats-bar__label">{{ block.settings.label }}</p>
+      </div>
+    {%- endfor -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Stats bar",
+  "blocks": [
+    {
+      "type": "stat",
+      "name": "Stat",
+      "settings": [
+        { "type": "text", "id": "value", "label": "Value", "default": "10k+" },
+        { "type": "text", "id": "label", "label": "Label", "default": "Happy customers" }
+      ]
+    }
+  ],
+  "max_blocks": 6,
+  "presets": [
+    {
+      "name": "Stats bar",
+      "blocks": [
+        { "type": "stat" },
+        { "type": "stat" },
+        { "type": "stat" }
+      ]
+    }
+  ]
+}
+{% endschema %}

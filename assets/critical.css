@@ -1,0 +1,134 @@
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  line-height: 1.5;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+html[data-scheme='dark'] {
+  --color-bg: var(--scheme-dark-1-bg);
+  --color-text: var(--scheme-dark-1-text);
+}
+
+@media (prefers-color-scheme: dark) {
+  html[data-scheme='auto'] {
+    --color-bg: var(--scheme-dark-1-bg);
+    --color-text: var(--scheme-dark-1-text);
+  }
+}
+
+a {
+  color: inherit;
+}
+
+img,
+video {
+  max-width: 100%;
+  height: auto;
+  vertical-align: middle;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-heading);
+  line-height: 1.2;
+  margin: 0 0 0.75rem;
+}
+
+.page-width {
+  width: 100%;
+  max-width: var(--container-max-width, var(--page-width));
+  padding-inline: var(--container-gutter-mobile, 20px);
+  margin-inline: auto;
+}
+
+@media screen and (min-width: 1200px) {
+  .page-width {
+    padding-inline: var(--container-gutter-desktop, 50px);
+  }
+}
+
+.skip-to-content-link {
+  position: absolute;
+  left: -9999px;
+  top: 1rem;
+  z-index: 1000;
+  background: #000;
+  color: #fff;
+  padding: 0.5rem 0.75rem;
+}
+
+.skip-to-content-link:focus {
+  left: 1rem;
+}
+
+.header {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  background: var(--color-bg);
+}
+
+.header--sticky {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+
+.header__inner {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 1rem;
+  min-height: 4.35rem;
+}
+
+.header__brand {
+  font-weight: 700;
+  text-decoration: none;
+  max-width: 170px;
+}
+
+.hero {
+  padding: 3rem 0;
+}
+
+.hero__media {
+  border-radius: 0.75rem;
+  overflow: hidden;
+}
+
+.grid {
+  display: grid;
+  gap: 1rem;
+}
+
+.product-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+@media screen and (min-width: 990px) {
+  .product-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+@media screen and (max-width: 989px) {
+  .header__nav {
+    display: none;
+  }
+}

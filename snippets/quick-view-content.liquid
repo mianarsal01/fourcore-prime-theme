@@ -1,0 +1,109 @@
+{%- assign current_variant = product.selected_or_first_available_variant -%}
+
+<div class="quick-view-product" data-product-root>
+  <div class="quick-view-product__layout">
+    <a href="{{ product.url }}" class="quick-view-product__media">
+      {%- if product.featured_media -%}
+        {{
+          product.featured_media
+          | image_url: width: 1200
+          | image_tag:
+            widths: '360,480,720,960,1200',
+            sizes: '(min-width: 990px) 40vw, 100vw',
+            loading: 'eager',
+            fetchpriority: 'high',
+            alt: product.title
+        }}
+      {%- else -%}
+        {{ 'product-1' | placeholder_svg_tag }}
+      {%- endif -%}
+    </a>
+
+    <div class="quick-view-product__info">
+      <h3><a href="{{ product.url }}">{{ product.title }}</a></h3>
+
+      <div class="product__price-wrap">
+        <p data-product-price>{{ current_variant.price | money }}</p>
+        <p data-product-compare-price {% if current_variant.compare_at_price <= current_variant.price %}hidden{% endif %}>
+          <s>{{ current_variant.compare_at_price | money }}</s>
+        </p>
+      </div>
+
+      {%- if current_variant.inventory_management != blank -%}
+        <p data-product-inventory data-low-stock-threshold="5">
+          {%- if current_variant.inventory_quantity > 0 -%}
+            {{ current_variant.inventory_quantity }} in stock
+          {%- else -%}
+            Out of stock
+          {%- endif -%}
+        </p>
+      {%- endif -%}
+
+      <div class="variant-options">
+        {%- for option in product.options_with_values -%}
+          {%- assign option_name_downcase = option.name | downcase -%}
+          {%- assign is_color_option = false -%}
+          {%- if option_name_downcase contains 'color' or option_name_downcase contains 'colour' -%}
+            {%- assign is_color_option = true -%}
+          {%- endif -%}
+
+          <fieldset data-option-group data-option-position="{{ forloop.index0 }}">
+            <legend>{{ option.name }}</legend>
+            <div class="variant-option-values{% if is_color_option %} variant-option-values--swatches{% endif %}">
+              {%- for value in option.values -%}
+                {%- assign option_id = 'QuickView-' | append: product.id | append: '-' | append: option.position | append: '-' | append: forloop.index -%}
+                <input
+                  id="{{ option_id }}"
+                  type="radio"
+                  name="options[{{ option.name | escape }}]"
+                  value="{{ value | escape }}"
+                  {% if option.selected_value == value %}
+                    checked
+                  {% endif %}
+                >
+                <label
+                  for="{{ option_id }}"
+                  class="variant-chip{% if is_color_option %} variant-chip--swatch{% endif %}"
+                  {% if is_color_option %}
+                    style="--swatch-color: {{ value | escape }};"
+                  {% endif %}
+                >
+                  {%- if is_color_option -%}
+                    <span class="variant-chip__swatch" aria-hidden="true"></span>
+                    <span class="visually-hidden">{{ value }}</span>
+                  {%- else -%}
+                    {{ value }}
+                  {%- endif -%}
+                </label>
+              {%- endfor -%}
+            </div>
+          </fieldset>
+        {%- endfor -%}
+      </div>
+
+      {%- form 'product', product, class: 'product-form', data-product-form: '' -%}
+        <input type="hidden" name="id" value="{{ current_variant.id }}">
+
+        <div class="quantity" data-quantity>
+          <button type="button" aria-label="Decrease">-</button>
+          <input type="number" name="quantity" min="1" value="1" aria-label="Quantity">
+          <button type="button" aria-label="Increase">+</button>
+        </div>
+
+        <button type="submit" name="add" data-add-to-cart {% unless current_variant.available %}disabled{% endunless %}>
+          {%- if current_variant.available -%}
+            Add to cart
+          {%- else -%}
+            Sold out
+          {%- endif -%}
+        </button>
+
+        <script type="application/json" data-variant-json>
+          {{ product.variants | json }}
+        </script>
+      {%- endform -%}
+
+      <p><a class="button button--secondary" href="{{ product.url }}">View full product</a></p>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,461 @@
+[
+  {
+    "name": "theme_info",
+    "theme_name": "FourCore Prime",
+    "theme_version": "0.1.0",
+    "theme_author": "FourCore",
+    "theme_documentation_url": "https://example.com/docs",
+    "theme_support_url": "https://example.com/support"
+  },
+  {
+    "name": "Brand",
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "logo",
+        "label": "Logo"
+      },
+      {
+        "type": "image_picker",
+        "id": "favicon",
+        "label": "Favicon"
+      },
+      {
+        "type": "font_picker",
+        "id": "font_heading",
+        "label": "Heading font",
+        "default": "assistant_n6"
+      },
+      {
+        "type": "font_picker",
+        "id": "font_body",
+        "label": "Body font",
+        "default": "assistant_n4"
+      }
+    ]
+  },
+  {
+    "name": "Dark mode",
+    "settings": [
+      {
+        "type": "radio",
+        "id": "color_scheme",
+        "label": "Default color scheme",
+        "info": "Choose which scheme loads first for shoppers.",
+        "options": [
+          {
+            "value": "auto",
+            "label": "System"
+          },
+          {
+            "value": "light",
+            "label": "Light"
+          },
+          {
+            "value": "dark",
+            "label": "Dark"
+          }
+        ],
+        "default": "auto"
+      },
+      {
+        "type": "checkbox",
+        "id": "dark_mode_toggle",
+        "label": "Enable dark mode toggle",
+        "default": true
+      },
+      {
+        "type": "color",
+        "id": "background_scheme_toggle",
+        "label": "Toggle background",
+        "default": "#EBEBEB"
+      },
+      {
+        "type": "color",
+        "id": "background_scheme_toggle_text",
+        "label": "Toggle text",
+        "default": "#717171"
+      }
+    ]
+  },
+  {
+    "name": "Colors",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Text and surfaces"
+      },
+      {
+        "type": "color",
+        "id": "color_background",
+        "label": "Page background",
+        "default": "#FFFFFF"
+      },
+      {
+        "type": "color",
+        "id": "color_surface",
+        "label": "Secondary surface",
+        "default": "#F7F7F7"
+      },
+      {
+        "type": "color",
+        "id": "color_text",
+        "label": "Body text",
+        "default": "#111111"
+      },
+      {
+        "type": "color",
+        "id": "color_text_secondary",
+        "label": "Secondary text",
+        "default": "#6B7280"
+      },
+      {
+        "type": "color",
+        "id": "color_text_heading",
+        "label": "Heading text",
+        "default": "#111111"
+      },
+      {
+        "type": "color",
+        "id": "color_accent",
+        "label": "Accent",
+        "default": "#0A5CFF"
+      },
+      {
+        "type": "color",
+        "id": "color_border",
+        "label": "Border",
+        "default": "#E0E3EE"
+      },
+      {
+        "type": "color",
+        "id": "color_overlay",
+        "label": "Overlay",
+        "default": "#000000"
+      },
+      {
+        "type": "header",
+        "content": "Primary buttons"
+      },
+      {
+        "type": "color",
+        "id": "color_button_primary_bg",
+        "label": "Background",
+        "default": "#0A5CFF"
+      },
+      {
+        "type": "color",
+        "id": "color_button_primary_bg_hover",
+        "label": "Background hover",
+        "default": "#004EE0"
+      },
+      {
+        "type": "color",
+        "id": "color_button_primary_text",
+        "label": "Text",
+        "default": "#FFFFFF"
+      },
+      {
+        "type": "color",
+        "id": "color_button_primary_text_hover",
+        "label": "Text hover",
+        "default": "#FFFFFF"
+      },
+      {
+        "type": "header",
+        "content": "Secondary buttons"
+      },
+      {
+        "type": "color",
+        "id": "color_button_secondary_bg",
+        "label": "Background",
+        "default": "#FFFFFF"
+      },
+      {
+        "type": "color",
+        "id": "color_button_secondary_bg_hover",
+        "label": "Background hover",
+        "default": "#F3F4F6"
+      },
+      {
+        "type": "color",
+        "id": "color_button_secondary_text",
+        "label": "Text",
+        "default": "#111111"
+      },
+      {
+        "type": "color",
+        "id": "color_button_secondary_text_hover",
+        "label": "Text hover",
+        "default": "#111111"
+      },
+      {
+        "type": "color",
+        "id": "color_button_secondary_border",
+        "label": "Border",
+        "default": "#111111"
+      },
+      {
+        "type": "header",
+        "content": "Tertiary buttons"
+      },
+      {
+        "type": "color",
+        "id": "color_button_tertiary_bg",
+        "label": "Background",
+        "default": "#F7F7F7"
+      },
+      {
+        "type": "color",
+        "id": "color_button_tertiary_bg_hover",
+        "label": "Background hover",
+        "default": "#ECECEC"
+      },
+      {
+        "type": "color",
+        "id": "color_button_tertiary_text",
+        "label": "Text",
+        "default": "#111111"
+      },
+      {
+        "type": "color",
+        "id": "color_button_tertiary_text_hover",
+        "label": "Text hover",
+        "default": "#111111"
+      },
+      {
+        "type": "header",
+        "content": "Inputs"
+      },
+      {
+        "type": "color",
+        "id": "color_input_background",
+        "label": "Input background",
+        "default": "#FFFFFF"
+      },
+      {
+        "type": "color",
+        "id": "color_input_text",
+        "label": "Input text",
+        "default": "#111111"
+      },
+      {
+        "type": "color",
+        "id": "color_input_border",
+        "label": "Input border",
+        "default": "#E5E5E5"
+      },
+      {
+        "type": "color",
+        "id": "color_input_border_hover",
+        "label": "Input border hover",
+        "default": "#A3A4A7"
+      }
+    ]
+  },
+  {
+    "name": "Color schemes",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Light 1"
+      },
+      {
+        "type": "color",
+        "id": "scheme_light_1_background",
+        "label": "Background",
+        "default": "#FFFFFF"
+      },
+      {
+        "type": "color",
+        "id": "scheme_light_1_text",
+        "label": "Text",
+        "default": "#101010"
+      },
+      {
+        "type": "color",
+        "id": "scheme_light_1_muted",
+        "label": "Muted text",
+        "default": "#666666"
+      },
+      {
+        "type": "color",
+        "id": "scheme_light_1_border",
+        "label": "Border",
+        "default": "#E0E3EE"
+      },
+      {
+        "type": "header",
+        "content": "Light 2"
+      },
+      {
+        "type": "color",
+        "id": "scheme_light_2_background",
+        "label": "Background",
+        "default": "#F6F7FA"
+      },
+      {
+        "type": "color",
+        "id": "scheme_light_2_text",
+        "label": "Text",
+        "default": "#111827"
+      },
+      {
+        "type": "color",
+        "id": "scheme_light_2_muted",
+        "label": "Muted text",
+        "default": "#6B7280"
+      },
+      {
+        "type": "color",
+        "id": "scheme_light_2_border",
+        "label": "Border",
+        "default": "#D8DDE8"
+      },
+      {
+        "type": "header",
+        "content": "Dark 1"
+      },
+      {
+        "type": "color",
+        "id": "scheme_dark_1_background",
+        "label": "Background",
+        "default": "#101114"
+      },
+      {
+        "type": "color",
+        "id": "scheme_dark_1_text",
+        "label": "Text",
+        "default": "#F4F4F6"
+      },
+      {
+        "type": "color",
+        "id": "scheme_dark_1_muted",
+        "label": "Muted text",
+        "default": "#B9BBC2"
+      },
+      {
+        "type": "color",
+        "id": "scheme_dark_1_border",
+        "label": "Border",
+        "default": "#363945"
+      },
+      {
+        "type": "header",
+        "content": "Announcement bar"
+      },
+      {
+        "type": "color",
+        "id": "scheme_announcement_dark_background",
+        "label": "Dark background",
+        "default": "#111111"
+      },
+      {
+        "type": "color",
+        "id": "scheme_announcement_dark_text",
+        "label": "Dark text",
+        "default": "#FFFFFF"
+      },
+      {
+        "type": "color",
+        "id": "scheme_announcement_light_background",
+        "label": "Light background",
+        "default": "#EEEEEE"
+      },
+      {
+        "type": "color",
+        "id": "scheme_announcement_light_text",
+        "label": "Light text",
+        "default": "#111111"
+      }
+    ]
+  },
+  {
+    "name": "Layout",
+    "settings": [
+      {
+        "type": "range",
+        "id": "content_max_width",
+        "label": "Global container max width",
+        "min": 1200,
+        "max": 1920,
+        "step": 20,
+        "unit": "px",
+        "default": 1920
+      },
+      {
+        "type": "range",
+        "id": "content_gutter_mobile",
+        "label": "Container side padding (mobile)",
+        "min": 12,
+        "max": 40,
+        "step": 1,
+        "unit": "px",
+        "default": 20
+      },
+      {
+        "type": "range",
+        "id": "content_gutter_desktop",
+        "label": "Container side padding (desktop)",
+        "min": 24,
+        "max": 80,
+        "step": 1,
+        "unit": "px",
+        "default": 50
+      },
+      {
+        "type": "header",
+        "content": "Header width"
+      },
+      {
+        "type": "range",
+        "id": "header_max_width",
+        "label": "Header container max width",
+        "min": 1200,
+        "max": 1920,
+        "step": 20,
+        "unit": "px",
+        "default": 1920
+      },
+      {
+        "type": "range",
+        "id": "header_gutter_mobile",
+        "label": "Header side padding (mobile)",
+        "min": 12,
+        "max": 40,
+        "step": 1,
+        "unit": "px",
+        "default": 20
+      },
+      {
+        "type": "range",
+        "id": "header_gutter_desktop",
+        "label": "Header side padding (desktop)",
+        "min": 24,
+        "max": 80,
+        "step": 1,
+        "unit": "px",
+        "default": 32
+      },
+      {
+        "type": "checkbox",
+        "id": "enable_sticky_header",
+        "label": "Sticky header",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "enable_section_reveal",
+        "label": "Reveal sections on scroll",
+        "default": false
+      },
+      {
+        "type": "number",
+        "id": "free_shipping_threshold",
+        "label": "Global free shipping threshold",
+        "default": 75,
+        "info": "Used for cart drawer and messaging in your store currency."
+      }
+    ]
+  }
+]

@@ -1,0 +1,181 @@
+{
+  "sections": {
+    "hero": {
+      "type": "hero-banner",
+      "settings": {
+        "heading": "Designed for modern DTC brands",
+        "text": "<p>FourCore Prime blends storytelling and conversion-first merchandising.</p>",
+        "button_label": "Shop now",
+        "button_link": "shopify://collections/all"
+      }
+    },
+    "marquee": {
+      "type": "scrolling-marquee",
+      "settings": {
+        "text": "Free shipping over $75 • New arrivals weekly • Built for conversion"
+      }
+    },
+    "promo_grid": {
+      "type": "promo-grid",
+      "blocks": {
+        "tile_1": {
+          "type": "tile",
+          "settings": {
+            "heading": "New arrivals",
+            "text": "Fresh drops every week.",
+            "button_label": "Shop new",
+            "link": "shopify://collections/all"
+          }
+        },
+        "tile_2": {
+          "type": "tile",
+          "settings": {
+            "heading": "Best sellers",
+            "text": "Top products chosen by customers.",
+            "button_label": "Shop best sellers",
+            "link": "shopify://collections/all"
+          }
+        },
+        "tile_3": {
+          "type": "tile",
+          "settings": {
+            "heading": "Limited offers",
+            "text": "Exclusive deals for a short time.",
+            "button_label": "View offers",
+            "link": "shopify://collections/all"
+          }
+        }
+      },
+      "block_order": [
+        "tile_1",
+        "tile_2",
+        "tile_3"
+      ],
+      "settings": {
+        "heading": "Shop by focus"
+      }
+    },
+    "featured_products": {
+      "type": "featured-products",
+      "settings": {
+        "heading": "Bestsellers",
+        "collection": "",
+        "products_to_show": 8
+      }
+    },
+    "feature_columns": {
+      "type": "feature-columns",
+      "blocks": {
+        "col_1": {
+          "type": "column",
+          "settings": {
+            "heading": "Fast delivery",
+            "text": "Dispatch in 1-2 business days."
+          }
+        },
+        "col_2": {
+          "type": "column",
+          "settings": {
+            "heading": "Premium quality",
+            "text": "Carefully selected materials and finish."
+          }
+        },
+        "col_3": {
+          "type": "column",
+          "settings": {
+            "heading": "Easy returns",
+            "text": "30-day return window for peace of mind."
+          }
+        }
+      },
+      "block_order": [
+        "col_1",
+        "col_2",
+        "col_3"
+      ],
+      "settings": {
+        "heading": "Why customers choose us"
+      }
+    },
+    "video_banner": {
+      "type": "video-banner",
+      "settings": {
+        "heading": "See the product story",
+        "autoplay": true,
+        "show_controls": false,
+        "button_label": "Shop collection",
+        "button_link": "shopify://collections/all"
+      }
+    },
+    "testimonials": {
+      "type": "testimonials",
+      "blocks": {
+        "testimonial_1": {
+          "type": "testimonial",
+          "settings": {
+            "quote": "The best theme foundation we have used for conversion and speed.",
+            "author": "A. Merchant"
+          }
+        },
+        "testimonial_2": {
+          "type": "testimonial",
+          "settings": {
+            "quote": "Flexible sections and clean defaults made launch easy.",
+            "author": "B. Founder"
+          }
+        },
+        "testimonial_3": {
+          "type": "testimonial",
+          "settings": {
+            "quote": "Great mobile UX and strong product page layout.",
+            "author": "C. Brand lead"
+          }
+        }
+      },
+      "block_order": [
+        "testimonial_1",
+        "testimonial_2",
+        "testimonial_3"
+      ],
+      "settings": {
+        "heading": "Loved by customers"
+      }
+    },
+    "faq": {
+      "type": "faq",
+      "blocks": {
+        "faq_1": {
+          "type": "item",
+          "settings": {
+            "question": "How fast do orders ship?",
+            "answer": "<p>Most orders leave our warehouse in 1-2 business days.</p>"
+          }
+        },
+        "faq_2": {
+          "type": "item",
+          "settings": {
+            "question": "What is your return policy?",
+            "answer": "<p>Returns are accepted within 30 days of delivery.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "faq_1",
+        "faq_2"
+      ],
+      "settings": {
+        "heading": "Frequently asked questions"
+      }
+    }
+  },
+  "order": [
+    "hero",
+    "marquee",
+    "promo_grid",
+    "featured_products",
+    "feature_columns",
+    "video_banner",
+    "testimonials",
+    "faq"
+  ]
+}

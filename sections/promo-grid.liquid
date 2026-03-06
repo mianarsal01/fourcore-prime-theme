@@ -1,0 +1,64 @@
+<section class="page-width section-pad promo-grid">
+  {%- if section.settings.heading != blank -%}
+    <h2>{{ section.settings.heading }}</h2>
+  {%- endif -%}
+
+  <div class="promo-grid__layout">
+    {%- for block in section.blocks -%}
+      <article class="promo-tile" {{ block.shopify_attributes }}>
+        {%- if block.settings.image != blank -%}
+          {{
+            block.settings.image
+            | image_url: width: 1200
+            | image_tag: widths: '320,480,640,960,1200', sizes: '(min-width: 990px) 33vw, 100vw', loading: 'lazy'
+          }}
+        {%- endif -%}
+        <div class="promo-tile__content">
+          <h3>{{ block.settings.heading }}</h3>
+          <p>{{ block.settings.text }}</p>
+          {%- if block.settings.link != blank and block.settings.button_label != blank -%}
+            <a class="button" href="{{ block.settings.link }}">{{ block.settings.button_label }}</a>
+          {%- endif -%}
+        </div>
+      </article>
+    {%- endfor -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Promotion grid",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Shop by focus"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "tile",
+      "name": "Tile",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Image" },
+        { "type": "text", "id": "heading", "label": "Heading", "default": "Promotion" },
+        { "type": "text", "id": "text", "label": "Text", "default": "Add supporting copy for this promotion." },
+        { "type": "text", "id": "button_label", "label": "Button label", "default": "Shop now" },
+        { "type": "url", "id": "link", "label": "Link" }
+      ]
+    }
+  ],
+  "max_blocks": 6,
+  "presets": [
+    {
+      "name": "Promotion grid",
+      "blocks": [
+        { "type": "tile" },
+        { "type": "tile" },
+        { "type": "tile" }
+      ]
+    }
+  ]
+}
+{% endschema %}

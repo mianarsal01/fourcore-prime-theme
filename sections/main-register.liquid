@@ -1,0 +1,26 @@
+<section class="page-width" style="padding: 2rem 0; max-width: 36rem;">
+  <h1>Create account</h1>
+
+  {%- form 'create_customer' -%}
+    <label for="RegisterFirstName">First name</label>
+    <input id="RegisterFirstName" type="text" name="customer[first_name]" autocomplete="given-name">
+
+    <label for="RegisterLastName">Last name</label>
+    <input id="RegisterLastName" type="text" name="customer[last_name]" autocomplete="family-name">
+
+    <label for="RegisterEmail">Email</label>
+    <input id="RegisterEmail" type="email" name="customer[email]" autocomplete="email" required>
+
+    <label for="RegisterPassword">Password</label>
+    <input id="RegisterPassword" type="password" name="customer[password]" autocomplete="new-password" required>
+
+    <button type="submit">Create account</button>
+  {%- endform -%}
+</section>
+
+{% schema %}
+{
+  "name": "Main register",
+  "settings": []
+}
+{% endschema %}

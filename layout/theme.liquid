@@ -1,0 +1,129 @@
+<!doctype html>
+<html
+  class="no-js"
+  lang="{{ request.locale.iso_code }}"
+  data-currency="{{ cart.currency.iso_code | default: shop.currency }}"
+  data-scheme="{{ settings.color_scheme | default: 'auto' }}"
+  data-dark-mode-enabled="{{ settings.dark_mode_toggle }}"
+>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="theme-color" content="{{ settings.color_accent | default: '#0A5CFF' }}">
+    {%- if page_description -%}
+      <meta name="description" content="{{ page_description | escape }}">
+    {%- endif -%}
+
+    <link rel="canonical" href="{{ canonical_url }}">
+
+    {%- if settings.favicon != blank -%}
+      <link rel="icon" type="image/png" href="{{ settings.favicon | image_url: width: 96, height: 96 }}">
+    {%- endif -%}
+
+    <style>
+      {{ settings.font_heading | font_face: font_display: 'swap' }}
+      {{ settings.font_body | font_face: font_display: 'swap' }}
+    </style>
+
+    <style>
+      :root {
+        --page-width: {{ settings.content_max_width }}px;
+        --container-max-width: {{ settings.content_max_width }}px;
+        --container-gutter-mobile: {{ settings.content_gutter_mobile }}px;
+        --container-gutter-desktop: {{ settings.content_gutter_desktop }}px;
+        --header-max-width: {{ settings.header_max_width | default: settings.content_max_width }}px;
+        --header-gutter-mobile: {{ settings.header_gutter_mobile | default: settings.content_gutter_mobile }}px;
+        --header-gutter-desktop: {{ settings.header_gutter_desktop | default: settings.content_gutter_desktop }}px;
+        --color-bg: {{ settings.color_background | default: '#FFFFFF' }};
+        --color-surface: {{ settings.color_surface | default: '#F7F7F7' }};
+        --color-text: {{ settings.color_text | default: '#111111' }};
+        --color-text-secondary: {{ settings.color_text_secondary | default: '#6B7280' }};
+        --color-text-heading: {{ settings.color_text_heading | default: '#111111' }};
+        --color-accent: {{ settings.color_accent | default: '#0A5CFF' }};
+        --color-border: {{ settings.color_border | default: '#E0E3EE' }};
+        --color-overlay-background: {{ settings.color_overlay | default: '#000000' }};
+        --color-button-primary-bg: {{ settings.color_button_primary_bg | default: '#0A5CFF' }};
+        --color-button-primary-bg-hover: {{ settings.color_button_primary_bg_hover | default: '#004EE0' }};
+        --color-button-primary-text: {{ settings.color_button_primary_text | default: '#FFFFFF' }};
+        --color-button-primary-text-hover: {{ settings.color_button_primary_text_hover | default: '#FFFFFF' }};
+        --color-button-secondary-bg: {{ settings.color_button_secondary_bg | default: '#FFFFFF' }};
+        --color-button-secondary-bg-hover: {{ settings.color_button_secondary_bg_hover | default: '#F3F4F6' }};
+        --color-button-secondary-text: {{ settings.color_button_secondary_text | default: '#111111' }};
+        --color-button-secondary-text-hover: {{ settings.color_button_secondary_text_hover | default: '#111111' }};
+        --color-button-secondary-border: {{ settings.color_button_secondary_border | default: '#111111' }};
+        --color-button-tertiary-bg: {{ settings.color_button_tertiary_bg | default: '#F7F7F7' }};
+        --color-button-tertiary-bg-hover: {{ settings.color_button_tertiary_bg_hover | default: '#ECECEC' }};
+        --color-button-tertiary-text: {{ settings.color_button_tertiary_text | default: '#111111' }};
+        --color-button-tertiary-text-hover: {{ settings.color_button_tertiary_text_hover | default: '#111111' }};
+        --color-input-bg: {{ settings.color_input_background | default: '#FFFFFF' }};
+        --color-input-text: {{ settings.color_input_text | default: '#111111' }};
+        --color-input-border: {{ settings.color_input_border | default: '#E5E5E5' }};
+        --color-input-border-hover: {{ settings.color_input_border_hover | default: '#A3A4A7' }};
+        --color-scheme-toggle: {{ settings.background_scheme_toggle | default: '#EBEBEB' }};
+        --color-scheme-toggle-text: {{ settings.background_scheme_toggle_text | default: '#717171' }};
+        --scheme-light-1-bg: {{ settings.scheme_light_1_background | default: '#FFFFFF' }};
+        --scheme-light-1-text: {{ settings.scheme_light_1_text | default: '#101010' }};
+        --scheme-light-1-muted: {{ settings.scheme_light_1_muted | default: '#666666' }};
+        --scheme-light-1-border: {{ settings.scheme_light_1_border | default: '#E0E3EE' }};
+        --scheme-light-2-bg: {{ settings.scheme_light_2_background | default: '#F6F7FA' }};
+        --scheme-light-2-text: {{ settings.scheme_light_2_text | default: '#111827' }};
+        --scheme-light-2-muted: {{ settings.scheme_light_2_muted | default: '#6B7280' }};
+        --scheme-light-2-border: {{ settings.scheme_light_2_border | default: '#D8DDE8' }};
+        --scheme-dark-1-bg: {{ settings.scheme_dark_1_background | default: '#101114' }};
+        --scheme-dark-1-text: {{ settings.scheme_dark_1_text | default: '#F4F4F6' }};
+        --scheme-dark-1-muted: {{ settings.scheme_dark_1_muted | default: '#B9BBC2' }};
+        --scheme-dark-1-border: {{ settings.scheme_dark_1_border | default: '#363945' }};
+        --announcement-dark-bg: {{ settings.scheme_announcement_dark_background | default: '#111111' }};
+        --announcement-dark-text: {{ settings.scheme_announcement_dark_text | default: '#FFFFFF' }};
+        --announcement-light-bg: {{ settings.scheme_announcement_light_background | default: '#EEEEEE' }};
+        --announcement-light-text: {{ settings.scheme_announcement_light_text | default: '#111111' }};
+        --font-heading: '{{ settings.font_heading.family }}', {{ settings.font_heading.fallback_families }};
+        --font-body: '{{ settings.font_body.family }}', {{ settings.font_body.fallback_families }};
+      }
+    </style>
+
+    {{ content_for_header }}
+
+    <link rel="preconnect" href="https://cdn.shopify.com" crossorigin>
+    {{ 'critical.css' | asset_url | stylesheet_tag }}
+    {%- if request.design_mode -%}
+      {{ 'theme.css' | asset_url | stylesheet_tag }}
+    {%- else -%}
+      <link rel="stylesheet" href="{{ 'theme.css' | asset_url }}" media="print" onload="this.media='all'">
+      <noscript>{{ 'theme.css' | asset_url | stylesheet_tag }}</noscript>
+    {%- endif -%}
+
+    <script>
+      window.FourCoreTheme = window.FourCoreTheme || {};
+      window.FourCoreTheme.enhancementsUrl = {{ 'theme-enhancements.js' | asset_url | json }};
+    </script>
+    <script src="{{ 'theme.js' | asset_url }}" defer="defer"></script>
+
+    <title>
+      {{ page_title }}
+      {%- if current_tags -%}
+        &ndash; {{ current_tags | join: ', ' }}
+      {%- endif -%}
+      {%- if current_page != 1 -%}
+        &ndash; Page {{ current_page }}
+      {%- endif -%}
+      {%- unless page_title contains shop.name -%}
+        &ndash; {{ shop.name }}
+      {%- endunless -%}
+    </title>
+  </head>
+
+  <body class="template-{{ template.name | handle }}{% if settings.enable_section_reveal %} reveal-enabled{% endif %}">
+    <a class="skip-to-content-link" href="#MainContent">Skip to content</a>
+
+    {% sections 'header-group' %}
+
+    <main id="MainContent" class="main-content" role="main" tabindex="-1">
+      {{ content_for_layout }}
+    </main>
+
+    {% sections 'footer-group' %}
+    {% render 'cart-drawer' %}
+    {% render 'quick-view-modal' %}
+  </body>
+</html>

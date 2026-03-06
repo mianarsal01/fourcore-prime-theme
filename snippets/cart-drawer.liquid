@@ -1,0 +1,64 @@
+<aside
+  class="cart-drawer"
+  data-cart-drawer
+  aria-hidden="true"
+  data-free-shipping-threshold="{{ settings.free_shipping_threshold | times: 100 }}"
+>
+  <button class="cart-drawer__overlay" type="button" aria-label="Close cart" data-cart-drawer-close></button>
+
+  <div class="cart-drawer__panel" role="dialog" aria-label="Cart drawer" aria-modal="true">
+    <header class="cart-drawer__header">
+      <h2>Cart (<span data-cart-count>{{ cart.item_count }}</span>)</h2>
+      <button type="button" class="cart-drawer__close" aria-label="Close cart" data-cart-drawer-close>&times;</button>
+    </header>
+
+    <div class="cart-drawer__body" data-cart-drawer-items>
+      {%- if cart.item_count == 0 -%}
+        <p data-cart-empty-message>Your cart is empty.</p>
+      {%- else -%}
+        {%- for item in cart.items -%}
+          <article class="cart-drawer__item" data-line="{{ forloop.index }}">
+            <a href="{{ item.url }}" class="cart-drawer__item-media" tabindex="-1">
+              {%- if item.image -%}
+                {{ item.image | image_url: width: 180 | image_tag: loading: 'lazy', widths: '90,180', alt: item.title }}
+              {%- endif -%}
+            </a>
+            <div>
+              <a href="{{ item.url }}">{{ item.product.title }}</a>
+              {%- unless item.variant.title contains 'Default Title' -%}
+                <p>{{ item.variant.title }}</p>
+              {%- endunless -%}
+              <p>{{ item.final_line_price | money }}</p>
+
+              <div class="quantity" data-cart-line-quantity>
+                <button type="button" data-cart-quantity-change="-1" aria-label="Decrease quantity">-</button>
+                <input type="number" value="{{ item.quantity }}" min="0" readonly>
+                <button type="button" data-cart-quantity-change="1" aria-label="Increase quantity">+</button>
+              </div>
+
+              <button type="button" class="cart-drawer__remove" data-cart-remove>Remove</button>
+            </div>
+          </article>
+        {%- endfor -%}
+      {%- endif -%}
+    </div>
+
+    <footer class="cart-drawer__footer">
+      <div class="cart-progress" data-cart-progress>
+        <div class="cart-progress__bar"><span data-cart-progress-fill style="width: 0%;"></span></div>
+        <p data-cart-progress-message></p>
+      </div>
+
+      <label for="CartDrawerNote">Order note</label>
+      <textarea id="CartDrawerNote" data-cart-note>{{ cart.note }}</textarea>
+      <button type="button" class="button button--secondary" data-cart-note-save>Save note</button>
+
+      <p class="cart-drawer__subtotal">Subtotal: <span data-cart-subtotal>{{ cart.total_price | money }}</span></p>
+
+      <div class="cart-drawer__actions">
+        <a href="{{ routes.cart_url }}" class="button button--secondary">View cart</a>
+        <a href="/checkout" class="button">Checkout</a>
+      </div>
+    </footer>
+  </div>
+</aside>

@@ -1,0 +1,21 @@
+{
+  "current": {
+    "color_background": "#FFFFFF",
+    "color_text": "#111111",
+    "color_accent": "#0A5CFF",
+    "content_max_width": 1920,
+    "content_gutter_mobile": 20,
+    "content_gutter_desktop": 32,
+    "header_max_width": 1920,
+    "header_gutter_mobile": 20,
+    "header_gutter_desktop": 32,
+    "enable_sticky_header": true,
+    "enable_section_reveal": false,
+    "free_shipping_threshold": 75,
+    "font_heading": "assistant_n6",
+    "font_body": "assistant_n4"
+  },
+  "presets": {
+    "Default": {}
+  }
+}

@@ -1,0 +1,74 @@
+<section class="hero page-width">
+  <div class="hero__media">
+    {%- if section.settings.image != blank -%}
+      {{
+        section.settings.image
+        | image_url: width: 2200
+        | image_tag:
+          widths: '640,960,1280,1600,2200',
+          sizes: '(min-width: 990px) 100vw, 100vw',
+          loading: 'eager',
+          fetchpriority: 'high',
+          alt: section.settings.heading
+      }}
+    {%- elsif section.settings.video != blank -%}
+      {{ section.settings.video | video_tag: autoplay: true, controls: false, loop: true, muted: true, playsinline: true }}
+    {%- else -%}
+      {{ 'lifestyle-1' | placeholder_svg_tag }}
+    {%- endif -%}
+  </div>
+
+  <div class="hero__content">
+    <h1>{{ section.settings.heading }}</h1>
+    <div>{{ section.settings.text }}</div>
+    {%- if section.settings.button_label != blank and section.settings.button_link != blank -%}
+      <a class="button" href="{{ section.settings.button_link }}">{{ section.settings.button_label }}</a>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Hero banner",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "video",
+      "id": "video",
+      "label": "Video"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "A premium theme crafted for conversion"
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Text",
+      "default": "<p>Build fast storefronts with flexible sections and conversion-focused product experiences.</p>"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label",
+      "default": "Shop now"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button link"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Hero banner"
+    }
+  ]
+}
+{% endschema %}

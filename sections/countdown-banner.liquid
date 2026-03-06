@@ -1,0 +1,46 @@
+<section class="countdown-banner section-pad" data-countdown data-end-date="{{ section.settings.end_date }}">
+  <div class="page-width countdown-banner__inner">
+    <div>
+      <h2>{{ section.settings.heading }}</h2>
+      <p>{{ section.settings.text }}</p>
+    </div>
+    <div class="countdown-banner__timer" data-countdown-timer>
+      <span><strong data-days>00</strong>Days</span>
+      <span><strong data-hours>00</strong>Hours</span>
+      <span><strong data-minutes>00</strong>Mins</span>
+      <span><strong data-seconds>00</strong>Secs</span>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Countdown banner",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Limited-time promotion"
+    },
+    {
+      "type": "text",
+      "id": "text",
+      "label": "Text",
+      "default": "Offer ends soon. Don't miss out."
+    },
+    {
+      "type": "text",
+      "id": "end_date",
+      "label": "End date (ISO format)",
+      "default": "2026-12-31T23:59:59Z",
+      "info": "Example: 2026-12-31T23:59:59Z"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Countdown banner"
+    }
+  ]
+}
+{% endschema %}

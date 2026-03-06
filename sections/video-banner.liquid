@@ -1,0 +1,41 @@
+<section class="video-banner section-pad">
+  <div class="page-width">
+    {%- if section.settings.heading != blank -%}
+      <h2>{{ section.settings.heading }}</h2>
+    {%- endif -%}
+
+    <div class="video-banner__media">
+      {%- if section.settings.video != blank -%}
+        {{ section.settings.video | video_tag: autoplay: section.settings.autoplay, loop: true, muted: true, controls: section.settings.show_controls, playsinline: true }}
+      {%- elsif section.settings.image != blank -%}
+        {{ section.settings.image | image_url: width: 2200 | image_tag: widths: '640,960,1280,1600,2200', loading: 'lazy' }}
+      {%- else -%}
+        {{ 'lifestyle-2' | placeholder_svg_tag }}
+      {%- endif -%}
+    </div>
+
+    {%- if section.settings.button_label != blank and section.settings.button_link != blank -%}
+      <p><a class="button" href="{{ section.settings.button_link }}">{{ section.settings.button_label }}</a></p>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Video banner",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Watch the story" },
+    { "type": "video", "id": "video", "label": "Video" },
+    { "type": "image_picker", "id": "image", "label": "Fallback image" },
+    { "type": "checkbox", "id": "autoplay", "label": "Autoplay", "default": true },
+    { "type": "checkbox", "id": "show_controls", "label": "Show controls", "default": false },
+    { "type": "text", "id": "button_label", "label": "Button label", "default": "Shop the collection" },
+    { "type": "url", "id": "button_link", "label": "Button link" }
+  ],
+  "presets": [
+    {
+      "name": "Video banner"
+    }
+  ]
+}
+{% endschema %}

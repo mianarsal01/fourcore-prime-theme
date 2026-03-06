@@ -1,0 +1,427 @@
+{%- assign current_variant = product.selected_or_first_available_variant -%}
+{%- assign product_form_id = 'ProductForm-' | append: section.id -%}
+
+{%- render 'breadcrumbs' -%}
+
+<section class="product" data-recently-viewed-handle="{{ product.handle }}" data-product-root>
+  <div class="product__layout page-width">
+    <div class="product__gallery" data-product-gallery>
+      <div class="product__media-list">
+        {%- for media in product.media -%}
+          <div
+            class="product__media-item{% if current_variant.featured_media and current_variant.featured_media.id == media.id %} is-active{% endif %}"
+            data-media-id="{{ media.id }}"
+          >
+            {%- case media.media_type -%}
+              {%- when 'image' -%}
+                <a href="{{ media | image_url: width: 2200 }}" class="product__zoom-link" aria-label="Open image">
+                  {%- if forloop.first -%}
+                    {{
+                      media
+                      | image_url: width: 1800
+                      | image_tag:
+                        widths: '480,720,960,1280,1800',
+                        sizes: '(min-width: 990px) 55vw, 100vw',
+                        loading: 'eager',
+                        fetchpriority: 'high',
+                        alt: media.alt | default: product.title
+                    }}
+                  {%- else -%}
+                    {{
+                      media
+                      | image_url: width: 1800
+                      | image_tag:
+                        widths: '480,720,960,1280,1800',
+                        sizes: '(min-width: 990px) 55vw, 100vw',
+                        loading: 'lazy',
+                        alt: media.alt | default: product.title
+                    }}
+                  {%- endif -%}
+                </a>
+              {%- when 'video' -%}
+                {{ media | video_tag: controls: true, preload: 'none' }}
+              {%- when 'external_video' -%}
+                {{ media | external_video_tag }}
+              {%- else -%}
+                {{ media | media_tag }}
+            {%- endcase -%}
+          </div>
+        {%- endfor -%}
+      </div>
+    </div>
+
+    <div class="product__info{% if section.settings.sticky_info %} product__info--sticky{% endif %}">
+      {%- if section.settings.show_vendor and product.vendor != blank -%}
+        <p class="product__vendor">{{ product.vendor }}</p>
+      {%- endif -%}
+
+      <h1>{{ product.title }}</h1>
+
+      <div class="product__price-wrap">
+        <p data-product-price>{{ current_variant.price | money }}</p>
+        <p data-product-compare-price {% if current_variant.compare_at_price <= current_variant.price %}hidden{% endif %}>
+          <s>{{ current_variant.compare_at_price | money }}</s>
+        </p>
+      </div>
+
+      {%- if section.settings.show_inventory and current_variant.inventory_management != blank -%}
+        <p data-product-inventory data-low-stock-threshold="{{ section.settings.low_stock_threshold }}">
+          {%- if current_variant.inventory_quantity > 0 -%}
+            {{ current_variant.inventory_quantity }} in stock
+          {%- else -%}
+            Out of stock
+          {%- endif -%}
+        </p>
+      {%- endif -%}
+
+      <div class="variant-options" data-picker-style="{{ section.settings.option_picker_style }}">
+        {%- for option in product.options_with_values -%}
+          {%- assign option_name_downcase = option.name | downcase -%}
+          {%- assign is_color_option = false -%}
+          {%- if option_name_downcase contains 'color' or option_name_downcase contains 'colour' -%}
+            {%- assign is_color_option = true -%}
+          {%- endif -%}
+
+          <fieldset data-option-group data-option-position="{{ forloop.index0 }}">
+            <legend>{{ option.name }}</legend>
+
+            {%- if section.settings.option_picker_style != 'dropdown' -%}
+              <div class="variant-option-values{% if is_color_option %} variant-option-values--swatches{% endif %}">
+                {%- for value in option.values -%}
+                  {%- assign option_id = section.id | append: '-' | append: option.position | append: '-' | append: forloop.index -%}
+                  <input
+                    id="{{ option_id }}"
+                    type="radio"
+                    name="options[{{ option.name | escape }}]"
+                    value="{{ value | escape }}"
+                    {% if option.selected_value == value %}
+                      checked
+                    {% endif %}
+                  >
+                  <label
+                    for="{{ option_id }}"
+                    class="variant-chip{% if is_color_option %} variant-chip--swatch{% endif %}"
+                    {% if is_color_option %}
+                      style="--swatch-color: {{ value | escape }};"
+                    {% endif %}
+                    title="{{ value | escape }}"
+                  >
+                    {%- if is_color_option -%}
+                      <span class="variant-chip__swatch" aria-hidden="true"></span>
+                      <span class="visually-hidden">{{ value }}</span>
+                    {%- else -%}
+                      {{ value }}
+                    {%- endif -%}
+                  </label>
+                {%- endfor -%}
+              </div>
+            {%- endif -%}
+
+            {%- if section.settings.option_picker_style != 'buttons' -%}
+              <label class="visually-hidden" for="OptionSelect-{{ section.id }}-{{ option.position }}">{{ option.name }}</label>
+              <select
+                id="OptionSelect-{{ section.id }}-{{ option.position }}"
+                data-option-select
+                name="options[{{ option.name | escape }}]"
+              >
+                {%- for value in option.values -%}
+                  <option value="{{ value | escape }}" {% if option.selected_value == value %}selected{% endif %}>{{ value }}</option>
+                {%- endfor -%}
+              </select>
+            {%- endif -%}
+          </fieldset>
+        {%- endfor -%}
+      </div>
+
+      {%- form 'product', product, id: product_form_id, class: 'product-form', data-product-form: '' -%}
+        <input type="hidden" name="id" value="{{ current_variant.id }}">
+
+        <div class="quantity" data-quantity>
+          <button type="button" aria-label="Decrease">-</button>
+          <input type="number" name="quantity" min="1" value="1" aria-label="{{ 'products.product.quantity' | t }}">
+          <button type="button" aria-label="Increase">+</button>
+        </div>
+
+        <button type="submit" name="add" {% unless current_variant.available %}disabled{% endunless %} data-add-to-cart>
+          {%- if current_variant.available -%}
+            {{ 'products.product.add_to_cart' | t }}
+          {%- else -%}
+            {{ 'products.product.sold_out' | t }}
+          {%- endif -%}
+        </button>
+
+        {%- if section.settings.show_quick_buy -%}
+          {{ form | payment_button }}
+        {%- endif -%}
+
+        <script type="application/json" data-variant-json>
+          {{ product.variants | json }}
+        </script>
+      {%- endform -%}
+
+      {%- if product.description != blank -%}
+        <div class="product__description rte">{{ product.description }}</div>
+      {%- endif -%}
+
+      {%- if section.blocks.size > 0 -%}
+        <div class="product__details-stack">
+          {%- for block in section.blocks -%}
+            {%- case block.type -%}
+              {%- when 'accordion' -%}
+                <details class="product-details" {{ block.shopify_attributes }}>
+                  <summary>{{ block.settings.heading }}</summary>
+                  <div>{{ block.settings.content }}</div>
+                </details>
+
+              {%- when 'size_chart' -%}
+                <details class="product-details" {{ block.shopify_attributes }}>
+                  <summary>{{ block.settings.heading }}</summary>
+                  {%- if block.settings.page != blank -%}
+                    <div>{{ block.settings.page.content }}</div>
+                  {%- else -%}
+                    <p>Select a page in this block to show your size chart.</p>
+                  {%- endif -%}
+                </details>
+
+              {%- when 'trust_badges' -%}
+                <div class="product-trust" {{ block.shopify_attributes }}>
+                  {%- if block.settings.heading != blank -%}
+                    <h3>{{ block.settings.heading }}</h3>
+                  {%- endif -%}
+                  <ul role="list">
+                    {%- if block.settings.badge_1 != blank -%}<li>{{ block.settings.badge_1 }}</li>{%- endif -%}
+                    {%- if block.settings.badge_2 != blank -%}<li>{{ block.settings.badge_2 }}</li>{%- endif -%}
+                    {%- if block.settings.badge_3 != blank -%}<li>{{ block.settings.badge_3 }}</li>{%- endif -%}
+                  </ul>
+                </div>
+
+              {%- when 'shipping_info' -%}
+                <div class="product-shipping" {{ block.shopify_attributes }}>
+                  {%- if block.settings.heading != blank -%}
+                    <h3>{{ block.settings.heading }}</h3>
+                  {%- endif -%}
+                  <div>{{ block.settings.content }}</div>
+                </div>
+
+              {%- when 'complementary_collection' -%}
+                <div class="product-complementary" {{ block.shopify_attributes }}>
+                  <h3>{{ block.settings.heading }}</h3>
+                  <div class="product-complementary__grid">
+                    {%- if block.settings.collection != blank -%}
+                      {%- for complementary_product in block.settings.collection.products limit: block.settings.products_to_show -%}
+                        <a href="{{ complementary_product.url }}">{{ complementary_product.title }}</a>
+                      {%- endfor -%}
+                    {%- else -%}
+                      <p>Select a collection in this block to show complementary products.</p>
+                    {%- endif -%}
+                  </div>
+                </div>
+
+              {%- when '@app' -%}
+                {% render block %}
+            {%- endcase -%}
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+
+  {%- if section.settings.enable_sticky_atc -%}
+    <div class="sticky-atc" data-sticky-atc data-form-id="{{ product_form_id }}" hidden>
+      <div class="sticky-atc__inner page-width">
+        <div>
+          <p class="sticky-atc__title">{{ product.title }}</p>
+          <p data-sticky-atc-price>{{ current_variant.price | money }}</p>
+        </div>
+        <button type="button" data-sticky-atc-submit {% unless current_variant.available %}disabled{% endunless %}>
+          {%- if current_variant.available -%}
+            {{ 'products.product.add_to_cart' | t }}
+          {%- else -%}
+            {{ 'products.product.sold_out' | t }}
+          {%- endif -%}
+        </button>
+      </div>
+    </div>
+  {%- endif -%}
+</section>
+
+{% schema %}
+{
+  "name": "Main product",
+  "blocks": [
+    {
+      "type": "accordion",
+      "name": "Accordion",
+      "settings": [
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "default": "Product details"
+        },
+        {
+          "type": "richtext",
+          "id": "content",
+          "label": "Content",
+          "default": "<p>Use this area for product details and fit notes.</p>"
+        }
+      ]
+    },
+    {
+      "type": "size_chart",
+      "name": "Size chart",
+      "settings": [
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "default": "Size chart"
+        },
+        {
+          "type": "page",
+          "id": "page",
+          "label": "Page"
+        }
+      ]
+    },
+    {
+      "type": "trust_badges",
+      "name": "Trust badges",
+      "settings": [
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "default": "Why shop with us"
+        },
+        {
+          "type": "text",
+          "id": "badge_1",
+          "label": "Badge 1",
+          "default": "Secure checkout"
+        },
+        {
+          "type": "text",
+          "id": "badge_2",
+          "label": "Badge 2",
+          "default": "30-day returns"
+        },
+        {
+          "type": "text",
+          "id": "badge_3",
+          "label": "Badge 3",
+          "default": "Fast support"
+        }
+      ]
+    },
+    {
+      "type": "shipping_info",
+      "name": "Shipping info",
+      "settings": [
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "default": "Shipping"
+        },
+        {
+          "type": "richtext",
+          "id": "content",
+          "label": "Content",
+          "default": "<p>Ships in 1-2 business days. Free shipping over $75.</p>"
+        }
+      ]
+    },
+    {
+      "type": "complementary_collection",
+      "name": "Complementary products",
+      "settings": [
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "default": "Pair it with"
+        },
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "Collection"
+        },
+        {
+          "type": "range",
+          "id": "products_to_show",
+          "label": "Products to show",
+          "min": 2,
+          "max": 6,
+          "step": 1,
+          "default": 4
+        }
+      ]
+    },
+    {
+      "type": "@app"
+    }
+  ],
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "sticky_info",
+      "label": "Sticky product information",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_vendor",
+      "label": "Show vendor",
+      "default": false
+    },
+    {
+      "type": "select",
+      "id": "option_picker_style",
+      "label": "Variant picker style",
+      "options": [
+        {
+          "value": "buttons",
+          "label": "Buttons"
+        },
+        {
+          "value": "dropdown",
+          "label": "Dropdown"
+        },
+        {
+          "value": "mixed",
+          "label": "Buttons + dropdown"
+        }
+      ],
+      "default": "mixed"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_inventory",
+      "label": "Show inventory",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "low_stock_threshold",
+      "label": "Low stock threshold",
+      "min": 1,
+      "max": 20,
+      "step": 1,
+      "default": 6
+    },
+    {
+      "type": "checkbox",
+      "id": "show_quick_buy",
+      "label": "Show quick buy button",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_sticky_atc",
+      "label": "Enable sticky add to cart",
+      "default": true
+    }
+  ]
+}
+{% endschema %}

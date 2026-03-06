@@ -1,0 +1,68 @@
+{%- liquid
+  assign promo_heading = heading
+  assign promo_description = description
+  assign promo_text = text
+  assign promo_text_accent = text_accent
+  assign promo_button_label = button_label
+  assign promo_button_link = button_link
+  assign promo_button_style = button_style | default: 'primary'
+  assign promo_color_scheme = color_scheme | default: 'dark'
+  assign promo_overlay_opacity = overlay_opacity | default: 0
+  assign promo_show_button = show_button
+
+  if promo_show_button == blank
+    assign promo_show_button = false
+  endif
+-%}
+
+<article class="header-v2__promo-card header-v2__promo-card--{{ promo_color_scheme }}">
+  <span class="header-v2__promo-overlay" style="opacity: {{ promo_overlay_opacity }}"></span>
+
+  {%- if image != blank -%}
+    {{
+      image
+      | image_url: width: 900
+      | image_tag:
+        class: 'header-v2__promo-image',
+        widths: '240,320,480,640,900',
+        sizes: '(min-width: 990px) 18vw, 70vw',
+        loading: 'lazy',
+        alt: promo_heading
+    }}
+  {%- endif -%}
+
+  <div class="header-v2__promo-content">
+    {%- if promo_heading != blank -%}
+      <h3>{{ promo_heading }}</h3>
+    {%- endif -%}
+
+    {%- if promo_description != blank -%}
+      <p>{{ promo_description }}</p>
+    {%- endif -%}
+
+    {%- if promo_text != blank or promo_text_accent != blank -%}
+      <p class="header-v2__promo-meta">
+        {%- if promo_text != blank -%}<span>{{ promo_text }}</span>{%- endif -%}
+        {%- if promo_text_accent != blank -%}<strong>{{ promo_text_accent }}</strong>{%- endif -%}
+      </p>
+    {%- endif -%}
+
+    {%- if promo_show_button and promo_button_label != blank -%}
+      <a
+        class="button{% if promo_button_style == 'secondary' %} button--secondary{% elsif promo_button_style == 'tertiary' %} button--tertiary{% endif %}"
+        {% if promo_button_link != blank %}
+          href="{{ promo_button_link }}"
+        {% else %}
+          role="link"
+          aria-disabled="true"
+        {% endif %}
+      >
+        {{ promo_button_label }}
+      </a>
+    {%- endif -%}
+  </div>
+
+  {%- if promo_button_link != blank -%}
+    <a class="header-v2__promo-overlay-link" href="{{ promo_button_link }}" aria-label="{{ promo_heading | default: 'Promo' | escape }}"></a>
+  {%- endif -%}
+</article>

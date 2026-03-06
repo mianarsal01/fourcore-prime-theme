@@ -1,0 +1,29 @@
+<section class="page-width" style="padding: 2rem 0;">
+  <h1>Search</h1>
+
+  <form action="{{ routes.search_url }}" method="get" role="search">
+    <input type="search" name="q" value="{{ search.terms | escape }}" placeholder="Search products, pages, and posts">
+    <button type="submit">Search</button>
+  </form>
+
+  {%- if search.performed -%}
+    <p>{{ search.results_count }} result(s)</p>
+    <div class="grid" style="grid-template-columns: repeat(2, minmax(0, 1fr));">
+      {%- for item in search.results -%}
+        <article>
+          <a href="{{ item.url }}">{{ item.title }}</a>
+          {%- if item.object_type == 'product' -%}
+            {%- render 'price', target: item -%}
+          {%- endif -%}
+        </article>
+      {%- endfor -%}
+    </div>
+  {%- endif -%}
+</section>
+
+{% schema %}
+{
+  "name": "Main search",
+  "settings": []
+}
+{% endschema %}

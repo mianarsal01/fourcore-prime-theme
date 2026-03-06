@@ -1,0 +1,26 @@
+<section class="marquee" aria-label="Marquee">
+  <div class="marquee__track">
+    {%- for index in (1..8) -%}
+      <span>{{ section.settings.text }}</span>
+    {%- endfor -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Scrolling marquee",
+  "settings": [
+    {
+      "type": "text",
+      "id": "text",
+      "label": "Text",
+      "default": "New arrivals available now"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Scrolling marquee"
+    }
+  ]
+}
+{% endschema %}
