@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "name": "Header group",
   "type": "header",
@@ -16,7 +25,9 @@
       "block_order": [
         "announcement_1"
       ],
-      "settings": {}
+      "settings": {
+        "color_scheme": "dark"
+      }
     },
     "header": {
       "type": "header",
@@ -31,7 +42,6 @@
             "color_scheme_1": "dark",
             "heading_1": "",
             "description_1": "",
-            "image_1": "",
             "overlay_opacity_1": 0,
             "show_button_1": false,
             "button_link_1": "",
@@ -43,7 +53,6 @@
             "color_scheme_2": "dark",
             "heading_2": "",
             "description_2": "",
-            "image_2": "",
             "overlay_opacity_2": 0,
             "show_button_2": false,
             "button_link_2": "",
@@ -58,7 +67,46 @@
         "dropdown_default"
       ],
       "settings": {
-        "menu": "main-menu"
+        "header_type_large": "bottom_main_menu_left_logo",
+        "color_scheme": "light-1",
+        "enable_header_overlay": false,
+        "logo_width": 120,
+        "menu": "main-menu",
+        "clickable_parent_links": true,
+        "enable_small_menu": true,
+        "small_menu": "main-menu",
+        "enable_country_selector": true,
+        "enable_language_selector": true,
+        "flag_style": "circle",
+        "sticky_header": "always",
+        "enable_contact_block": true,
+        "contact_text": "Get in Touch",
+        "contact_accent_text": "Send us a message",
+        "enable_dark_mode_toggle": true,
+        "enable_search": true,
+        "search_placeholder": "What are you looking for ...",
+        "predictive_products_limit": 6,
+        "enable_search_promo_dropdown": false,
+        "show_search_collections": true,
+        "search_collections": [],
+        "show_search_popular": true,
+        "search_products": [],
+        "show_search_vendor": true,
+        "show_search_price": true,
+        "search_products_link": "",
+        "show_search_articles": true,
+        "search_blog": "",
+        "show_search_article_image": true,
+        "show_search_article_date": true,
+        "search_blog_link": "",
+        "show_search_promo_block": true,
+        "search_promo_text_color": "light",
+        "search_promo_heading": "Promo Block Title Here",
+        "search_promo_text": "From",
+        "search_promo_accent_text": "$99",
+        "search_promo_button_link": "",
+        "search_promo_button_label": "Shop now",
+        "search_promo_button_style": "primary"
       }
     }
   },
