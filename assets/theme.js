@@ -35,21 +35,31 @@ THEME.utils = { formatMoney, debounce, escapeHtml, withWidth };
 
 const stickyHeaderState = {
   header: null,
+  target: null,
   onScroll: null,
   observer: null
 };
 
-const getStickyNodes = (header) => {
-  return header ? [header] : [];
+const getStickyTarget = (header) => {
+  if (!header) return null;
+  const sectionWrapper = header.closest('[id^="shopify-section-"]');
+
+  if (sectionWrapper) {
+    sectionWrapper.classList.add('fourcore-sticky-target');
+    return sectionWrapper;
+  }
+
+  return header;
 };
 
-const toggleStickyClass = (header, className, force) => {
-  getStickyNodes(header).forEach((node) => node.classList.toggle(className, force));
+const toggleStickyClass = (target, className, force) => {
+  if (!target) return;
+  target.classList.toggle(className, force);
 };
 
-const resetStickyHeaderClasses = (header) => {
-  if (!header) return;
-  getStickyNodes(header).forEach((node) => node.classList.remove('is-sticky-active', 'is-sticky-hidden'));
+const resetStickyHeaderClasses = (target) => {
+  if (!target) return;
+  target.classList.remove('is-sticky-active', 'is-sticky-hidden');
 };
 
 const teardownStickyHeader = () => {
@@ -70,15 +80,19 @@ const setupStickyHeader = () => {
 
   if (!header) {
     stickyHeaderState.header = null;
+    stickyHeaderState.target = null;
     return;
   }
 
-  if (stickyHeaderState.header && stickyHeaderState.header !== header) {
-    resetStickyHeaderClasses(stickyHeaderState.header);
+  const target = getStickyTarget(header);
+
+  if (stickyHeaderState.target && stickyHeaderState.target !== target) {
+    resetStickyHeaderClasses(stickyHeaderState.target);
   }
 
   stickyHeaderState.header = header;
-  resetStickyHeaderClasses(header);
+  stickyHeaderState.target = target;
+  resetStickyHeaderClasses(target);
 
   const mode = (header.dataset.stickyMode || 'on_scroll_up').toLowerCase();
   if (mode === 'disabled' || mode === 'none') return;
@@ -86,19 +100,19 @@ const setupStickyHeader = () => {
   if (mode === 'always') {
     const onScrollAlways = () => {
       const currentScroll = window.pageYOffset || document.documentElement.scrollTop;
-      const headerHeight = header.offsetHeight;
+      const headerHeight = target ? target.offsetHeight : header.offsetHeight;
 
       if (currentScroll > headerHeight + 1) {
-        toggleStickyClass(header, 'is-sticky-active', true);
-        toggleStickyClass(header, 'is-sticky-hidden', true);
+        toggleStickyClass(target, 'is-sticky-active', true);
+        toggleStickyClass(target, 'is-sticky-hidden', true);
       }
 
       if (currentScroll > headerHeight + 2) {
-        toggleStickyClass(header, 'is-sticky-hidden', false);
+        toggleStickyClass(target, 'is-sticky-hidden', false);
       }
 
       if (currentScroll < headerHeight) {
-        resetStickyHeaderClasses(header);
+        resetStickyHeaderClasses(target);
       }
     };
 
@@ -111,7 +125,7 @@ const setupStickyHeader = () => {
   let currentScrollTop = window.pageYOffset || document.documentElement.scrollTop;
   let headerBounds = {
     top: 0,
-    bottom: header.offsetHeight
+    bottom: target ? target.offsetHeight : header.offsetHeight
   };
 
   if ('IntersectionObserver' in window) {
@@ -127,22 +141,23 @@ const setupStickyHeader = () => {
       }
     });
 
-    observer.observe(header);
+    observer.observe(target || header);
     stickyHeaderState.observer = observer;
   }
 
   const onScrollReveal = () => {
     const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-    const hideThreshold = Math.max(headerBounds.bottom, header.offsetHeight);
+    const targetHeight = target ? target.offsetHeight : header.offsetHeight;
+    const hideThreshold = Math.max(headerBounds.bottom, targetHeight);
 
     if (scrollTop > currentScrollTop && scrollTop > hideThreshold + 2) {
-      toggleStickyClass(header, 'is-sticky-active', true);
-      toggleStickyClass(header, 'is-sticky-hidden', true);
+      toggleStickyClass(target, 'is-sticky-active', true);
+      toggleStickyClass(target, 'is-sticky-hidden', true);
     } else if (scrollTop < currentScrollTop && scrollTop > hideThreshold + 2) {
-      toggleStickyClass(header, 'is-sticky-active', true);
-      toggleStickyClass(header, 'is-sticky-hidden', false);
+      toggleStickyClass(target, 'is-sticky-active', true);
+      toggleStickyClass(target, 'is-sticky-hidden', false);
     } else if (scrollTop <= headerBounds.top + 1) {
-      resetStickyHeaderClasses(header);
+      resetStickyHeaderClasses(target);
     }
 
     currentScrollTop = scrollTop;

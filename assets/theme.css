@@ -1915,14 +1915,14 @@ html[data-scheme='dark'] .header-v2:not(.header--overlay) {
   padding-inline: var(--header-gutter-mobile, var(--container-gutter-mobile, 20px));
 }
 
-.header-v2[data-sticky-mode='always'],
-.header-v2[data-sticky-mode='on_scroll_up'],
-.header-v2.is-sticky-active {
+.fourcore-sticky-target.is-sticky-active {
   position: sticky;
   top: 0;
+  z-index: 60;
+  transition: transform 0.24s ease;
 }
 
-.header-v2.is-sticky-hidden {
+.fourcore-sticky-target.is-sticky-hidden {
   transform: translateY(-100%);
 }
 
