@@ -68,8 +68,8 @@
       ],
       "settings": {
         "header_type_large": "bottom_main_menu_left_logo",
-        "color_scheme": "dark-1",
-        "enable_header_overlay": true,
+        "color_scheme": "light-1",
+        "enable_header_overlay": false,
         "logo_width": 120,
         "menu": "main-menu",
         "clickable_parent_links": true,
