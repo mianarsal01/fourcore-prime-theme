@@ -2624,18 +2624,20 @@ html.theme-dark .header-v2 [data-has-dark-logo='true'] .header-v2__logo--dark {
 
 .header-v2__country-flag {
   --flag-size: 2rem;
-  display: inline-grid;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   place-items: center;
   width: var(--flag-size);
   height: var(--flag-size);
   border-radius: 999px;
   border: 2px solid color-mix(in srgb, var(--header-border, var(--footer-border, var(--color-border))) 72%, #fff 28%);
-  background: #fff;
+  background: transparent;
   padding: 0;
-  font-size: 1.12rem;
+  font-size: 0;
   font-family: 'Apple Color Emoji', 'Segoe UI Emoji', 'Noto Color Emoji', sans-serif;
   flex: 0 0 auto;
-  line-height: 1;
+  line-height: 0;
   overflow: hidden;
 }
 
@@ -2643,8 +2645,11 @@ html.theme-dark .header-v2 [data-has-dark-logo='true'] .header-v2__logo--dark {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: center;
   display: block;
   border-radius: inherit;
+  transform: scale(1.06);
+  transform-origin: center;
 }
 
 .header-v2__localization-trigger .header-v2__country-flag {

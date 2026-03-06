@@ -356,8 +356,16 @@
           {%- form 'localization', id: 'HeaderCountryForm', class: 'localization-form header-v2__localization-form' -%}
             <details class="header-v2__localization header-v2__localization--country" data-localization-disclosure>
               <summary class="header-v2__localization-trigger" aria-label="Country and currency selector">
-                <span class="header-v2__country-flag" data-country-iso="{{ localization.country.iso_code }}" aria-hidden="true">
-                  {{ localization.country.iso_code }}
+                <span class="header-v2__country-flag" aria-hidden="true">
+                  {{
+                    localization.country
+                    | image_url: width: 80
+                    | image_tag:
+                      loading: 'eager',
+                      widths: '20,30,40,60,80',
+                      sizes: '35px',
+                      alt: ''
+                  }}
                 </span>
                 <span>{{ localization.country.iso_code }}</span>
                 <svg viewBox="0 0 10 6" width="10" height="6" aria-hidden="true" focusable="false">
@@ -374,8 +382,16 @@
                       name="country_code"
                       value="{{ country.iso_code }}"
                     >
-                      <span class="header-v2__country-flag" data-country-iso="{{ country.iso_code }}" aria-hidden="true">
-                        {{ country.iso_code }}
+                      <span class="header-v2__country-flag" aria-hidden="true">
+                        {{
+                          country
+                          | image_url: width: 80
+                          | image_tag:
+                            loading: 'lazy',
+                            widths: '20,30,40,60,80',
+                            sizes: '38px',
+                            alt: ''
+                        }}
                       </span>
                       <span class="header-v2__localization-label">{{ country.name }}</span>
                       <span class="header-v2__localization-meta">({{ country.currency.iso_code }} {{ country.currency.symbol }})</span>
@@ -678,8 +694,16 @@
               {%- form 'localization', id: 'HeaderCountryFormTop', class: 'localization-form header-v2__localization-form' -%}
                 <details class="header-v2__localization header-v2__localization--country" data-localization-disclosure>
                   <summary class="header-v2__localization-trigger" aria-label="Country and currency selector">
-                    <span class="header-v2__country-flag" data-country-iso="{{ localization.country.iso_code }}" aria-hidden="true">
-                      {{ localization.country.iso_code }}
+                    <span class="header-v2__country-flag" aria-hidden="true">
+                      {{
+                        localization.country
+                        | image_url: width: 80
+                        | image_tag:
+                          loading: 'eager',
+                          widths: '20,30,40,60,80',
+                          sizes: '35px',
+                          alt: ''
+                      }}
                     </span>
                     <span>{{ localization.country.iso_code }}</span>
                     <svg viewBox="0 0 10 6" width="10" height="6" aria-hidden="true" focusable="false">
@@ -696,8 +720,16 @@
                           name="country_code"
                           value="{{ country.iso_code }}"
                         >
-                          <span class="header-v2__country-flag" data-country-iso="{{ country.iso_code }}" aria-hidden="true">
-                            {{ country.iso_code }}
+                          <span class="header-v2__country-flag" aria-hidden="true">
+                            {{
+                              country
+                              | image_url: width: 80
+                              | image_tag:
+                                loading: 'lazy',
+                                widths: '20,30,40,60,80',
+                                sizes: '38px',
+                                alt: ''
+                            }}
                           </span>
                           <span class="header-v2__localization-label">{{ country.name }}</span>
                           <span class="header-v2__localization-meta">({{ country.currency.iso_code }} {{ country.currency.symbol }})</span>

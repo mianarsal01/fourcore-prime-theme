@@ -280,28 +280,7 @@ const setupDarkModeToggle = () => {
   });
 };
 
-const countryCodeToFlag = (countryCode = '') => {
-  const normalized = String(countryCode || '')
-    .trim()
-    .toUpperCase();
-
-  if (!/^[A-Z]{2}$/.test(normalized)) return normalized;
-
-  return [...normalized].map((char) => String.fromCodePoint(127397 + char.charCodeAt(0))).join('');
-};
-
 const setupLocalizationDisclosures = (scope = document) => {
-  scope.querySelectorAll('[data-country-iso]').forEach((node) => {
-    if (node.dataset.flagBound === 'true') return;
-    const iso = String(node.dataset.countryIso || '')
-      .trim()
-      .toUpperCase();
-
-    node.textContent = countryCodeToFlag(iso);
-
-    node.dataset.flagBound = 'true';
-  });
-
   const disclosures = [...scope.querySelectorAll('[data-localization-disclosure]')];
   disclosures.forEach((disclosure) => {
     if (disclosure.dataset.bound === 'true') return;
