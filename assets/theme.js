@@ -415,6 +415,134 @@ const setupHeaderShopDropdown = (scope = document) => {
   document.body.dataset.shopDropdownGlobalBound = 'true';
 };
 
+const submenuViewportPadding = 8;
+
+const positionNestedSubmenuWithinViewport = (submenuItem) => {
+  if (!submenuItem) return;
+
+  const nestedSubmenu = submenuItem.querySelector(':scope > .header-v2__submenu-level');
+  if (!nestedSubmenu) return;
+
+  submenuItem.classList.remove('is-submenu-level-flipped');
+  nestedSubmenu.style.left = 'calc(100% + 0.2rem)';
+  nestedSubmenu.style.right = 'auto';
+  nestedSubmenu.style.width = '';
+  nestedSubmenu.style.maxWidth = `${Math.max(220, window.innerWidth - submenuViewportPadding * 2)}px`;
+
+  let rect = nestedSubmenu.getBoundingClientRect();
+  const maxRight = window.innerWidth - submenuViewportPadding;
+
+  if (rect.right > maxRight) {
+    submenuItem.classList.add('is-submenu-level-flipped');
+    nestedSubmenu.style.left = '';
+    nestedSubmenu.style.right = '';
+    rect = nestedSubmenu.getBoundingClientRect();
+  }
+
+  if (rect.left >= submenuViewportPadding && rect.right <= maxRight) return;
+
+  submenuItem.classList.remove('is-submenu-level-flipped');
+  nestedSubmenu.style.left = 'calc(100% + 0.2rem)';
+  nestedSubmenu.style.right = 'auto';
+  rect = nestedSubmenu.getBoundingClientRect();
+
+  const parentRect = submenuItem.getBoundingClientRect();
+  let left = rect.left - parentRect.left;
+
+  if (rect.left < submenuViewportPadding) {
+    left += submenuViewportPadding - rect.left;
+  }
+
+  if (rect.right > maxRight) {
+    left -= rect.right - maxRight;
+  }
+
+  nestedSubmenu.style.left = `${left}px`;
+  nestedSubmenu.style.right = 'auto';
+};
+
+const positionTopSubmenuWithinViewport = (menuItem) => {
+  if (!menuItem) return;
+
+  const submenu = menuItem.querySelector(':scope > .header-v2__submenu');
+  if (!submenu) return;
+
+  submenu.style.left = '';
+  submenu.style.right = '';
+  submenu.style.width = '';
+  submenu.style.maxWidth = `${Math.max(220, window.innerWidth - submenuViewportPadding * 2)}px`;
+
+  if (menuItem.matches('.header-v2__menu-item:last-child')) {
+    submenu.style.left = 'auto';
+    submenu.style.right = '0';
+  } else {
+    submenu.style.left = '0';
+    submenu.style.right = 'auto';
+  }
+
+  const maxRight = window.innerWidth - submenuViewportPadding;
+  let rect = submenu.getBoundingClientRect();
+  const parentRect = menuItem.getBoundingClientRect();
+  let left = rect.left - parentRect.left;
+
+  if (rect.left < submenuViewportPadding) {
+    left += submenuViewportPadding - rect.left;
+  }
+
+  if (rect.right > maxRight) {
+    left -= rect.right - maxRight;
+  }
+
+  submenu.style.left = `${left}px`;
+  submenu.style.right = 'auto';
+
+  submenu.querySelectorAll(':scope > li.has-submenu').forEach((submenuItem) => {
+    positionNestedSubmenuWithinViewport(submenuItem);
+  });
+};
+
+const positionHeaderSubmenus = (scope = document) => {
+  const root = scope && scope.querySelectorAll ? scope : document;
+  root.querySelectorAll('.header-v2__menu-item.has-submenu').forEach((menuItem) => {
+    positionTopSubmenuWithinViewport(menuItem);
+  });
+};
+
+const setupHeaderSubmenuPositioning = (scope = document) => {
+  const root = scope && scope.querySelectorAll ? scope : document;
+
+  root.querySelectorAll('.header-v2__menu-item.has-submenu').forEach((menuItem) => {
+    if (menuItem.dataset.submenuPositionBound !== 'true') {
+      const positionCurrentMenuItem = () => positionTopSubmenuWithinViewport(menuItem);
+      menuItem.addEventListener('mouseenter', positionCurrentMenuItem);
+      menuItem.addEventListener('focusin', positionCurrentMenuItem);
+      menuItem.dataset.submenuPositionBound = 'true';
+    }
+
+    menuItem.querySelectorAll(':scope > .header-v2__submenu > li.has-submenu').forEach((submenuItem) => {
+      if (submenuItem.dataset.submenuLevelPositionBound === 'true') return;
+
+      const positionCurrentSubmenuLevel = () => positionNestedSubmenuWithinViewport(submenuItem);
+      submenuItem.addEventListener('mouseenter', positionCurrentSubmenuLevel);
+      submenuItem.addEventListener('focusin', positionCurrentSubmenuLevel);
+      submenuItem.dataset.submenuLevelPositionBound = 'true';
+    });
+  });
+
+  if (document.body.dataset.headerSubmenuPositionResizeBound !== 'true') {
+    const onResize = debounce(() => {
+      positionHeaderSubmenus();
+    }, 80);
+
+    window.addEventListener('resize', onResize, { passive: true });
+    document.body.dataset.headerSubmenuPositionResizeBound = 'true';
+  }
+
+  window.requestAnimationFrame(() => {
+    positionHeaderSubmenus(root);
+  });
+};
+
 const setupMobileDrawer = () => {
   const button = document.querySelector('[data-mobile-nav-toggle]');
   const drawer = document.querySelector('[data-mobile-nav-drawer]');
@@ -937,6 +1065,7 @@ setupStickyHeader();
 setupDarkModeToggle();
 setupLocalizationDisclosures();
 setupHeaderShopDropdown();
+setupHeaderSubmenuPositioning();
 setupQuantity();
 setupCartDrawer();
 setupAjaxAddToCart();
@@ -950,6 +1079,7 @@ document.addEventListener('shopify:section:load', (event) => {
   setupDarkModeToggle();
   setupLocalizationDisclosures(scope);
   setupHeaderShopDropdown(scope);
+  setupHeaderSubmenuPositioning(scope);
   setupQuantity(scope);
   setupVariantSelection(scope);
   setupQuickView();
