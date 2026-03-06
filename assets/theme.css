@@ -1915,6 +1915,8 @@ html[data-scheme='dark'] .header-v2:not(.header--overlay) {
   padding-inline: var(--header-gutter-mobile, var(--container-gutter-mobile, 20px));
 }
 
+.header-v2[data-sticky-mode='always'],
+.header-v2[data-sticky-mode='on_scroll_up'],
 .header-v2.is-sticky-active {
   position: sticky;
   top: 0;
@@ -2605,6 +2607,7 @@ html.theme-dark .header-v2 [data-has-dark-logo='true'] .header-v2__logo--dark {
   font-weight: 500;
   line-height: 1;
   cursor: pointer;
+  max-width: 100%;
 }
 
 .header-v2__localization[open] .header-v2__localization-trigger {
@@ -2621,16 +2624,16 @@ html.theme-dark .header-v2 [data-has-dark-logo='true'] .header-v2__logo--dark {
 }
 
 .header-v2__country-flag {
-  --flag-size: 1.7rem;
+  --flag-size: 2rem;
   display: inline-grid;
   place-items: center;
   width: var(--flag-size);
   height: var(--flag-size);
   border-radius: 999px;
-  border: 1px solid color-mix(in srgb, var(--header-border, var(--footer-border, var(--color-border))) 78%, transparent);
-  background: color-mix(in srgb, var(--header-bg, var(--footer-bg, var(--color-bg))) 88%, #fff 12%);
-  padding: 0.08rem;
-  font-size: 0.88rem;
+  border: 2px solid color-mix(in srgb, var(--header-border, var(--footer-border, var(--color-border))) 72%, #fff 28%);
+  background: #fff;
+  padding: 0;
+  font-size: 1.12rem;
   font-family: 'Apple Color Emoji', 'Segoe UI Emoji', 'Noto Color Emoji', sans-serif;
   flex: 0 0 auto;
   line-height: 1;
@@ -2646,12 +2649,12 @@ html.theme-dark .header-v2 [data-has-dark-logo='true'] .header-v2__logo--dark {
 }
 
 .header-v2__localization-trigger .header-v2__country-flag {
-  --flag-size: 2rem;
+  --flag-size: 2.2rem;
 }
 
 .header-v2__localization-list .header-v2__country-flag,
 .footer-v2__localization-list .header-v2__country-flag {
-  --flag-size: 2.15rem;
+  --flag-size: 2.35rem;
 }
 
 .header-v2[data-flag-style='square'] .header-v2__country-flag,
@@ -2670,7 +2673,7 @@ html.theme-dark .header-v2 [data-has-dark-logo='true'] .header-v2__logo--dark {
   top: calc(100% + 0.45rem);
   left: 0;
   min-width: 19rem;
-  max-width: min(24rem, 80vw);
+  max-width: min(24rem, calc(100vw - 1rem));
   max-height: 22rem;
   overflow: auto;
   list-style: none;
@@ -2681,6 +2684,12 @@ html.theme-dark .header-v2 [data-has-dark-logo='true'] .header-v2__logo--dark {
   background: var(--header-bg);
   box-shadow: 0 16px 30px rgba(0, 0, 0, 0.14);
   z-index: 82;
+}
+
+.header-v2__actions .header-v2__localization-list,
+.header-v2__menu-meta .header-v2__localization-list {
+  left: auto;
+  right: 0;
 }
 
 .header-v2__localization--language .header-v2__localization-list {
@@ -2701,6 +2710,7 @@ html.theme-dark .header-v2 [data-has-dark-logo='true'] .header-v2__logo--dark {
   border-radius: 0.4rem;
   font: inherit;
   line-height: 1.2;
+  min-width: 0;
 }
 
 .header-v2__localization-option:hover {
@@ -2861,7 +2871,7 @@ html.theme-dark .header-v2 [data-has-dark-logo='true'] .header-v2__logo--dark {
   top: calc(100% + 0.45rem);
   left: 0;
   min-width: 14rem;
-  max-width: 20rem;
+  max-width: min(20rem, calc(100vw - 1rem));
   list-style: none;
   margin: 0;
   padding: 0.35rem;
@@ -2901,7 +2911,7 @@ html.theme-dark .header-v2 [data-has-dark-logo='true'] .header-v2__logo--dark {
   top: -0.35rem;
   left: calc(100% + 0.2rem);
   min-width: 14rem;
-  max-width: 20rem;
+  max-width: min(20rem, calc(100vw - 1rem));
   list-style: none;
   margin: 0;
   padding: 0.35rem;
@@ -2932,6 +2942,22 @@ html.theme-dark .header-v2 [data-has-dark-logo='true'] .header-v2__logo--dark {
   opacity: 1;
   transform: translateX(0);
   pointer-events: auto;
+}
+
+.header-v2__menu-item:nth-last-child(-n + 2) > .header-v2__submenu {
+  left: auto;
+  right: 0;
+}
+
+.header-v2__menu-item:nth-last-child(-n + 2) > .header-v2__submenu > li.has-submenu > .header-v2__submenu-level {
+  left: auto;
+  right: calc(100% + 0.2rem);
+  transform: translateX(-7px);
+}
+
+.header-v2__menu-item:nth-last-child(-n + 2) > .header-v2__submenu > li.has-submenu:hover > .header-v2__submenu-level,
+.header-v2__menu-item:nth-last-child(-n + 2) > .header-v2__submenu > li.has-submenu:focus-within > .header-v2__submenu-level {
+  transform: translateX(0);
 }
 
 .header-v2__mega {

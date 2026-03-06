@@ -39,9 +39,17 @@ const stickyHeaderState = {
   observer: null
 };
 
+const getStickyNodes = (header) => {
+  return header ? [header] : [];
+};
+
+const toggleStickyClass = (header, className, force) => {
+  getStickyNodes(header).forEach((node) => node.classList.toggle(className, force));
+};
+
 const resetStickyHeaderClasses = (header) => {
   if (!header) return;
-  header.classList.remove('is-sticky-active', 'is-sticky-hidden');
+  getStickyNodes(header).forEach((node) => node.classList.remove('is-sticky-active', 'is-sticky-hidden'));
 };
 
 const teardownStickyHeader = () => {
@@ -81,11 +89,12 @@ const setupStickyHeader = () => {
       const headerHeight = header.offsetHeight;
 
       if (currentScroll > headerHeight + 1) {
-        header.classList.add('is-sticky-active', 'is-sticky-hidden');
+        toggleStickyClass(header, 'is-sticky-active', true);
+        toggleStickyClass(header, 'is-sticky-hidden', true);
       }
 
       if (currentScroll > headerHeight + 2) {
-        header.classList.remove('is-sticky-hidden');
+        toggleStickyClass(header, 'is-sticky-hidden', false);
       }
 
       if (currentScroll < headerHeight) {
@@ -124,13 +133,15 @@ const setupStickyHeader = () => {
 
   const onScrollReveal = () => {
     const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    const hideThreshold = Math.max(headerBounds.bottom, header.offsetHeight);
 
-    if (scrollTop > currentScrollTop && scrollTop > headerBounds.bottom) {
-      header.classList.add('is-sticky-hidden', 'is-sticky-active');
-    } else if (scrollTop < currentScrollTop && scrollTop > headerBounds.bottom) {
-      header.classList.add('is-sticky-active');
-      header.classList.remove('is-sticky-hidden');
-    } else if (scrollTop <= headerBounds.top) {
+    if (scrollTop > currentScrollTop && scrollTop > hideThreshold + 2) {
+      toggleStickyClass(header, 'is-sticky-active', true);
+      toggleStickyClass(header, 'is-sticky-hidden', true);
+    } else if (scrollTop < currentScrollTop && scrollTop > hideThreshold + 2) {
+      toggleStickyClass(header, 'is-sticky-active', true);
+      toggleStickyClass(header, 'is-sticky-hidden', false);
+    } else if (scrollTop <= headerBounds.top + 1) {
       resetStickyHeaderClasses(header);
     }
 
@@ -264,25 +275,6 @@ const countryCodeToFlag = (countryCode = '') => {
   return [...normalized].map((char) => String.fromCodePoint(127397 + char.charCodeAt(0))).join('');
 };
 
-const createCountryFlagImage = (isoCode = '') => {
-  const normalized = String(isoCode || '')
-    .trim()
-    .toLowerCase();
-
-  if (!/^[a-z]{2}$/.test(normalized)) return null;
-
-  const image = document.createElement('img');
-  image.src = `https://flagcdn.com/w40/${normalized}.png`;
-  image.srcset = `https://flagcdn.com/w40/${normalized}.png 1x, https://flagcdn.com/w80/${normalized}.png 2x`;
-  image.width = 20;
-  image.height = 15;
-  image.alt = '';
-  image.loading = 'lazy';
-  image.decoding = 'async';
-
-  return image;
-};
-
 const setupLocalizationDisclosures = (scope = document) => {
   scope.querySelectorAll('[data-country-iso]').forEach((node) => {
     if (node.dataset.flagBound === 'true') return;
@@ -290,18 +282,7 @@ const setupLocalizationDisclosures = (scope = document) => {
       .trim()
       .toUpperCase();
 
-    const fallbackToEmoji = () => {
-      node.textContent = countryCodeToFlag(iso);
-    };
-
-    const image = createCountryFlagImage(iso);
-    if (image) {
-      image.addEventListener('error', fallbackToEmoji, { once: true });
-      node.textContent = '';
-      node.appendChild(image);
-    } else {
-      fallbackToEmoji();
-    }
+    node.textContent = countryCodeToFlag(iso);
 
     node.dataset.flagBound = 'true';
   });
